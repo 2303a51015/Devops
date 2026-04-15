@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "SnackHub Hostel Snack Exchange - Backend API",
   "main": "server.js",
+  "homepage": "https://2303a51015.github.io/SnackHub/",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "deploy": "git add .. && git commit -m 'deploy update' && git push origin main"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
