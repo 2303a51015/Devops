@@ -1,39 +1,42 @@
-name: CI/CD Pipeline
+name: SnackHub CI/CD Pipeline
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 🔹 Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Node
+      # 🔹 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # 🔹 Install backend dependencies
       - name: Install backend
         run: |
           cd backend
           npm install
 
-      - name: Install frontend
-        run: |
-          cd frontend
-          npm install
+      # 🔹 Skip frontend (HTML only)
+      - name: Frontend step
+        run: echo "Static frontend (HTML/CSS) - no build needed"
 
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build || echo "no build script"
-
-      - name: Run backend
+      # 🔹 Start backend server
+      - name: Run backend server
         run: |
           cd backend
           node server.js &
           sleep 5
-          curl http://localhost:3000 || echo "server check skipped"
+
+      # 🔹 Health check
+      - name: Check server running
+        run: |
+          curl http://localhost:3000 || echo "Server check skipped"
